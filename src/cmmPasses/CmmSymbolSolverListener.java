@@ -97,7 +97,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
             boolean isExtern = ctx.extern() != null;
             boolean hasPrototype = true;
             try {
-                Function f = new Function(fun_name, locals, return_type, isExtern, hasPrototype, symbols);
+                Function f = new Function(fun_name, locals, return_type, isExtern, hasPrototype, symbols, null, fun.Id().getSymbol().getLine());
                 symbols.addFunction(f);
             } catch (SymbolRedefinedException e) {
                 System.out.println(e.toString());
@@ -127,7 +127,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
             boolean isExtern = ctx.extern() != null;
             boolean hasPrototype = true;
             try {
-                Function f = new Function(fun_name, locals, Types.VOID, isExtern, hasPrototype, symbols);
+                Function f = new Function(fun_name, locals, Types.VOID, isExtern, hasPrototype, symbols, null, fun.Id().getSymbol().getLine());
                 symbols.addFunction(f);
             } catch (SymbolRedefinedException e) {
                 System.out.println(e.toString());

@@ -47,7 +47,7 @@ public class SymbolTable {
     public void addFunction(Function f) throws SymbolRedefinedException{
         Function fun = functions.get(f);
         if(fun != null) {
-            throw new SymbolRedefinedException("Function %s was already defined before".formatted(f.name));
+            throw new SymbolRedefinedException("Function %s was already defined before in line %d.".formatted(f.name, fun.getLine()));
         }
         functions.put(f, f);
     }
@@ -65,11 +65,12 @@ public class SymbolTable {
         variables.put(v, v);
     }
 
-    public boolean resolveFunction(Function f) throws UndefinedSymbolException {
+    public Function resolveFunction(Function f) throws UndefinedSymbolException {
         assert parent == null; // there is no support to local functions
-        if (functions.get(f) == null) {
-            throw new UndefinedSymbolException("Function %s was not defined".formatted(f.name));
+        Function fun = functions.get(f);
+        if (fun == null) {
+            throw new UndefinedSymbolException("Function %s was not defined.".formatted(f.name));
         }
-        return true;
+        return fun;
     }
 }

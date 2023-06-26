@@ -6,6 +6,7 @@ import symbol_table.SymbolTable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import cmm.CmmParser;
 
 public class Function {
     public final String name;
@@ -14,13 +15,17 @@ public class Function {
     public final Types returnType;
     public final boolean isExtern;
     public final boolean hasPrototype;
+    public final CmmParser.FunctionContext start;
+    private final int line;
 
-    public Function(String name, List<Variable<?>> locals, Types returnType, boolean isExtern, boolean hasPrototype, SymbolTable scope) throws Exception {
+    public Function(String name, List<Variable<?>> locals, Types returnType, boolean isExtern, boolean hasPrototype, SymbolTable scope, CmmParser.FunctionContext start, int line) throws Exception {
         this.name = name;
         this.returnType = returnType;
         this.variables = new SymbolTable(scope);
         this.isExtern = isExtern;
         this.hasPrototype = hasPrototype;
+        this.start = start;
+        this.line = line;
         boolean failCompilation = false;
         args = locals;
         for (Variable<?> v : locals){
@@ -47,9 +52,13 @@ public class Function {
         variables.setVar(v);
     }
 
+    public int getLine() {
+        return  line;
+    }
+
     public static Function dummy(String name) {
         try {
-            return new Function(name, new ArrayList<>(), null, false,false, null);
+            return new Function(name, new ArrayList<>(), null, false,false, null, null, 0);
         } catch (Exception ignored) {
 
         }
