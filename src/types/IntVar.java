@@ -8,4 +8,10 @@ public class IntVar extends Variable<Integer> {
         this.data = data;
     }
 
+    public IntVar(String name) {
+        this.name = name;
+        this.type = Types.INT;
+        this.data = null;
+    }
+
 }

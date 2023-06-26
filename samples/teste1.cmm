@@ -1,8 +1,9 @@
-int function(int a, int b, char c) {
-    int d, e, f;
-    char t[10];
-    d = 0;
-    return d;
-}
 
-int fun(int a, int b), bla(void), foo(void);
+int a,b [10], c[1];
+char d;
+char e [100];
+int a(int a, int b);
+extern int b(char a, char b[]), c(void);
+char d(int a, int b), e(char a, char b[]), f(void);
+char d(int a, int b), e(char a, char b[]);
+extern char f(void);

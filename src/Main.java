@@ -32,31 +32,32 @@ public class Main {
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, tree);
+        System.out.println();
 
     }
 
     public static void main(String[] args) {
 
-//        if (args.length > 0) {
-//            Set<String> files = Stream.of(Objects.requireNonNull(new File("samples").listFiles()))
-//                    .filter(file -> !file.isDirectory())
-//                    .map(File::getName)
-//                    .map((name -> "samples/" + name))
-//                    .collect(Collectors.toSet());
-//            for (String file : files) {
-//                try {
-//                    runParser(Files.newInputStream(Path.of(file)));
-//                } catch (IOException e) {
-//                    System.err.println("Error reading file " + file);
-//                }
-//            }
-//        } else {
-//            try {
-//                runParser(System.in);
-//            } catch (IOException e) {
-//                System.err.println("An error occurred while reading Stdin");
-//            }
-//        }
+        if (args.length > 0) {
+            Set<String> files = Stream.of(Objects.requireNonNull(new File("samples").listFiles()))
+                    .filter(file -> !file.isDirectory())
+                    .map(File::getName)
+                    .map((name -> "samples/" + name))
+                    .collect(Collectors.toSet());
+            for (String file : files) {
+                try {
+                    runParser(Files.newInputStream(Path.of(file)));
+                } catch (IOException e) {
+                    System.err.println("Error reading file " + file);
+                }
+            }
+        } else {
+            try {
+                runParser(System.in);
+            } catch (IOException e) {
+                System.err.println("An error occurred while reading Stdin");
+            }
+        }
 
 
     }

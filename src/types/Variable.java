@@ -4,6 +4,9 @@ public class Variable<T> {
     protected Types type;
     protected String name;
     protected T data;
+    protected int line;
+    protected int column;
+
 
     public String getName() {
         return name;
@@ -19,6 +22,21 @@ public class Variable<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     @Override

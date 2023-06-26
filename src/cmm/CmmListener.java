@@ -54,6 +54,36 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitVoid_prototype(CmmParser.Void_prototypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CmmParser#extern}.
+	 * @param ctx the parse tree
+	 */
+	void enterExtern(CmmParser.ExternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#extern}.
+	 * @param ctx the parse tree
+	 */
+	void exitExtern(CmmParser.ExternContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#void}.
+	 * @param ctx the parse tree
+	 */
+	void enterVoid(CmmParser.VoidContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#void}.
+	 * @param ctx the parse tree
+	 */
+	void exitVoid(CmmParser.VoidContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#function_def}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction_def(CmmParser.Function_defContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#function_def}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction_def(CmmParser.Function_defContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CmmParser#var}.
 	 * @param ctx the parse tree
 	 */

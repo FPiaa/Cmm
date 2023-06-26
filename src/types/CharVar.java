@@ -9,6 +9,12 @@ public class CharVar extends Variable<Character>{
         this.data = data;
     }
 
+    public CharVar(String name) {
+        this.name = name;
+        this.type= Types.CHAR;
+        this.data = null;
+    }
+
 
 }
 

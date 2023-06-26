@@ -38,6 +38,24 @@ public interface CmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVoid_prototype(CmmParser.Void_prototypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CmmParser#extern}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExtern(CmmParser.ExternContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#void}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVoid(CmmParser.VoidContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CmmParser#function_def}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_def(CmmParser.Function_defContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CmmParser#var}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

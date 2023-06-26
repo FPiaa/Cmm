@@ -10,29 +10,31 @@ import java.util.Map;
 
 public class SymbolTable {
     public final SymbolTable parent;
-    public final Map<Variable, Variable> variables = new HashMap<>();
+    public final Map<Variable<?>, Variable<?>> variables = new HashMap<>();
     public final Map<Function, Function> functions = new HashMap<>();
     public SymbolTable(SymbolTable parent) {
         this.parent = parent;
     }
-    public void addVar(Variable variable, String scope) throws SymbolRedefinedException {
-        if (variables.get(variable) != null) {
-            throw new SymbolRedefinedException("Variable %s already defined in Function %s".formatted(variable.toString(), scope));
+    public void addVar(Variable<?> variable) throws SymbolRedefinedException {
+        Variable<?> v = variables.get(variable);
+        if (v != null) {
+            throw new SymbolRedefinedException("Variable %s already defined in %d:%d".formatted(v.toString(), v.getLine(), v.getColumn()));
         }
 
         variables.put(variable, variable);
     }
 
-    public boolean resolveVar(Variable v, String scope) throws UndefinedSymbolException {
-        if(variables.get(v) == null){
+    public Variable<?> resolveVar(Variable<?> v) throws UndefinedSymbolException {
+        Variable<?>  variable = variables.get(v);
+        if(variable == null){
             if(parent == null) {
-                throw new UndefinedSymbolException("Variable %s not defined".formatted(v.toString()));
+                throw new UndefinedSymbolException("Variable %s was not defined".formatted(v.toString()));
             }
             else {
-                return parent.resolveVar(v, scope);
+                return parent.resolveVar(v);
             }
         }
-        return true;
+        return variable;
     }
 
     public Variable<?> getVar(Variable<?> v) {
@@ -44,9 +46,11 @@ public class SymbolTable {
 //    }
     public void addFunction(Function f) throws SymbolRedefinedException{
         Function fun = functions.get(f);
+        if(fun != null && !fun.hasPrototype) {
+            throw new SymbolRedefinedException("Function %s was already defined before".formatted(f.name));
+        }
         if(fun != null && fun.isExtern) {
-
-            throw new SymbolRedefinedException("Function %s was already defined before");
+            throw new SymbolRedefinedException("Functions %s is extern and cannot be implemented in this file".formatted(f.name));
         }
         functions.put(f, f);
     }
