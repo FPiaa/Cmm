@@ -1,4 +1,4 @@
-package symbol_table;
+package types;
 
 public class IntVar extends Variable{
     public int data;

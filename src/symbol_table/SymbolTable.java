@@ -1,9 +1,12 @@
 package symbol_table;
 
+import exceptions.SymbolRedefinedException;
+import exceptions.UndefinedSymbolException;
+import types.Function;
+import types.Variable;
+
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class SymbolTable {
     public final SymbolTable parent;
@@ -54,6 +57,11 @@ public class SymbolTable {
 
     public Function getFunction(Function f) {
         return functions.get(f);
+    }
+
+    public void setVar(Variable v) {
+        assert variables.get(v) != null;
+        variables.put(v, v);
     }
 
     public boolean resolveFunction(Function f) throws UndefinedSymbolException {

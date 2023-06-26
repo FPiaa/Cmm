@@ -1,4 +1,4 @@
-package symbol_table;
+package types;
 
 import java.util.ArrayList;
 

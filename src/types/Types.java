@@ -1,4 +1,4 @@
-package symbol_table;
+package types;
 
 public enum Types {
     INT, CHAR, INT_P, CHAR_P, VOID, UNSUPPORTED;
