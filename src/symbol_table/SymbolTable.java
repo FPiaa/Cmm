@@ -46,11 +46,8 @@ public class SymbolTable {
 //    }
     public void addFunction(Function f) throws SymbolRedefinedException{
         Function fun = functions.get(f);
-        if(fun != null && !fun.hasPrototype) {
+        if(fun != null) {
             throw new SymbolRedefinedException("Function %s was already defined before".formatted(f.name));
-        }
-        if(fun != null && fun.isExtern) {
-            throw new SymbolRedefinedException("Functions %s is extern and cannot be implemented in this file".formatted(f.name));
         }
         functions.put(f, f);
     }
