@@ -35,13 +35,13 @@ public class SymbolTable {
         return true;
     }
 
-    public Variable getVar(Variable v) {
+    public Variable<?> getVar(Variable<?> v) {
         return variables.get(v);
     }
 
-    public Variable getVar(String v) {
-        return variables.get(Variable.dummy(v));
-    }
+//    public Variable<?> getVar(String v) {
+//        return variables.get(Variable.dummy(v));
+//    }
     public void addFunction(Function f) throws SymbolRedefinedException{
         Function fun = functions.get(f);
         if(fun != null && fun.isExtern) {
@@ -59,7 +59,7 @@ public class SymbolTable {
         return functions.get(f);
     }
 
-    public void setVar(Variable v) {
+    public void setVar(Variable<?> v) {
         assert variables.get(v) != null;
         variables.put(v, v);
     }

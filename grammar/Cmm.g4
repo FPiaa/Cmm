@@ -3,9 +3,9 @@ import Lexer;
 
 prog: (declaration ';' | function)*;
 
-declaration: var_decl
-    | 'extern'? type Id '(' param_types ')' (',' Id '(' param_types ')')*
-    | 'extern'? 'void' Id '(' param_types ')' (',' Id '(' param_types ')')*;
+declaration: var_decl # global_variables
+    | 'extern'? type Id '(' param_types ')' (',' Id '(' param_types ')')* # typed_prototype
+    | 'extern'? 'void' Id '(' param_types ')' (',' Id '(' param_types ')')* # void_prototype;
 
 var: Id ('['  Intcon ']')?;
 var_decl: type var (',' var)*;

@@ -29,13 +29,37 @@ public class CmmBaseListener implements CmmListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclaration(CmmParser.DeclarationContext ctx) { }
+	@Override public void enterGlobal_variables(CmmParser.Global_variablesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDeclaration(CmmParser.DeclarationContext ctx) { }
+	@Override public void exitGlobal_variables(CmmParser.Global_variablesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTyped_prototype(CmmParser.Typed_prototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTyped_prototype(CmmParser.Typed_prototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVoid_prototype(CmmParser.Void_prototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVoid_prototype(CmmParser.Void_prototypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -120,6 +144,18 @@ public class CmmBaseListener implements CmmListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssign(CmmParser.AssignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIndexing(CmmParser.IndexingContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIndexing(CmmParser.IndexingContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

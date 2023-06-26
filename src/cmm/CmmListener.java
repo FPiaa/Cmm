@@ -18,15 +18,41 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitProg(CmmParser.ProgContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CmmParser#declaration}.
+	 * Enter a parse tree produced by the {@code global_variables}
+	 * labeled alternative in {@link CmmParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterDeclaration(CmmParser.DeclarationContext ctx);
+	void enterGlobal_variables(CmmParser.Global_variablesContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CmmParser#declaration}.
+	 * Exit a parse tree produced by the {@code global_variables}
+	 * labeled alternative in {@link CmmParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitDeclaration(CmmParser.DeclarationContext ctx);
+	void exitGlobal_variables(CmmParser.Global_variablesContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code typed_prototype}
+	 * labeled alternative in {@link CmmParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterTyped_prototype(CmmParser.Typed_prototypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code typed_prototype}
+	 * labeled alternative in {@link CmmParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitTyped_prototype(CmmParser.Typed_prototypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code void_prototype}
+	 * labeled alternative in {@link CmmParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterVoid_prototype(CmmParser.Void_prototypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code void_prototype}
+	 * labeled alternative in {@link CmmParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitVoid_prototype(CmmParser.Void_prototypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CmmParser#var}.
 	 * @param ctx the parse tree
@@ -97,6 +123,16 @@ public interface CmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssign(CmmParser.AssignContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#indexing}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndexing(CmmParser.IndexingContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#indexing}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndexing(CmmParser.IndexingContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CmmParser#expr}.
 	 * @param ctx the parse tree
