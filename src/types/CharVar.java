@@ -1,17 +1,14 @@
 package types;
 
 
-public class CharVar extends Variable{
-    public char data;
+public class CharVar extends Variable<Character>{
 
     public CharVar(String name, char data) {
-        super(name, "char");
+        this.name = name;
+        this.type = Types.CHAR;
         this.data = data;
     }
 
-    public CharVar(String name) {
-        super(name, "char");
-        this.data = 0;
-    }
+
 }
 

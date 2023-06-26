@@ -2,11 +2,11 @@ package types;
 
 import java.util.ArrayList;
 
-public class IntPVar extends Variable{
-    private final ArrayList<Integer> data;
+public class IntPVar extends Variable<ArrayList<Integer>>{
 
     public IntPVar(String name, int size) {
-        super(name, "int*");
+        this.name = name;
+        this.type = Types.INT_P;
         this.data = new ArrayList<>(size);
     }
 
@@ -15,7 +15,7 @@ public class IntPVar extends Variable{
         return data.get(pos);
     }
 
-    public void update(int pos, int value) {
+    public void set(int pos, int value) {
         assert pos<data.size();
         this.data.set(pos, value);
     }

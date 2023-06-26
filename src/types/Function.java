@@ -10,19 +10,19 @@ import java.util.Objects;
 public class Function {
     public final String name;
     public final SymbolTable variables;
-    private final List<Variable> args;
+    private final List<Variable<?>> args;
     public final Types returnType;
     public final boolean isExtern;
     public final boolean hasPrototype;
 
-    public Function(String name, List<Variable> locals, Types returnType, boolean isExtern, boolean hasPrototype, SymbolTable scope) throws SymbolRedefinedException {
+    public Function(String name, List<Variable<?>> locals, Types returnType, boolean isExtern, boolean hasPrototype, SymbolTable scope) throws SymbolRedefinedException {
         this.name = name;
         this.returnType = returnType;
         this.variables = new SymbolTable(scope);
         this.isExtern = isExtern;
         this.hasPrototype = hasPrototype;
         args = locals;
-        for (Variable v : locals){
+        for (Variable<?> v : locals){
             variables.addVar(v, name);
         }
     }
@@ -35,7 +35,7 @@ public class Function {
         return Objects.equals(name, function.name);
     }
 
-    public void setVariableValue(Variable v) {
+    public void setVariableValue(Variable<?> v) {
         variables.setVar(v);
     }
 

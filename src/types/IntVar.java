@@ -1,15 +1,11 @@
 package types;
 
-public class IntVar extends Variable{
-    public int data;
+public class IntVar extends Variable<Integer> {
 
     public IntVar(String name, int data) {
-        super(name, "int");
+        this.name = name;
+        this.type = Types.INT;
         this.data = data;
     }
 
-    public IntVar(String name) {
-        super(name, "int");
-        this.data = 0;
-    }
 }
