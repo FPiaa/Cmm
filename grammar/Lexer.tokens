@@ -1,0 +1,10 @@
+WS=1
+Comment=2
+ArgPointer=3
+Id=4
+Intcon=5
+Charcon=6
+Stringcon=7
+Ch=8
+Digit=9
+Letter=10

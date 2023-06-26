@@ -1,0 +1,8 @@
+int function(int a, int b, char c) {
+    int d, e, f;
+    char t[10];
+    d = 0;
+    return d;
+}
+
+int fun(int a, int b), bla(void), foo(void);
