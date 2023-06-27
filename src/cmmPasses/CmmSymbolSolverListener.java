@@ -81,16 +81,8 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
             String fun_name = fun.Id().getText();
             Types return_type = getType(ctx.type().getText());
 
-            List<Variable<?>> locals = new ArrayList<>(8);
             var params = fun.param_types();
-            for (int i = 0; i < params.type().size(); i++) {
-                String var_name = params.Id(i).getText();
-                String type = params.type(i).getText();
-                var pointer = params.ArgPointer(i);
-                String size = pointer != null ? "0" : null;
-                Variable<?> v = createVar(var_name, type, size);
-                locals.add(v);
-            }
+            var locals = processArgs(params);
             boolean isExtern = ctx.extern() != null;
             boolean hasPrototype = true;
             try {
@@ -131,13 +123,13 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
     List<Variable<?>> processArgs(CmmParser.Param_typesContext params) {
         List<Variable<?>> locals = new ArrayList<>(5);
         for (int i = 0; i < params.type().size(); i++) {
-            String var_name = params.Id(i).getText();
+            String var_name = params.var_param(i).Id().getText();
             String type = params.type(i).getText();
-            var pointer = params.ArgPointer(i);
+            var pointer = params.var_param(i).ArgPointer();
             String size = pointer != null ? "0" : null;
             Variable<?> v = createVar(var_name, type, size);
-            v.setLine(params.Id(i).getSymbol().getLine());
-            v.setColumn(params.Id(i).getSymbol().getCharPositionInLine());
+            v.setLine(params.var_param(i).Id().getSymbol().getLine());
+            v.setColumn(params.var_param(i).Id().getSymbol().getCharPositionInLine());
             locals.add(v);
         }
         return locals;

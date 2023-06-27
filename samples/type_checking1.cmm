@@ -1,0 +1,18 @@
+void assign(int a, char b, int c[], char d[]) {
+   a = b;
+   b = a;
+   c[0] = d[0];
+   d[0] = d[1];
+   a = d; /* esses quatros devem dar erro de tipo */
+   a = c;
+   b = c;
+   b = d;
+}
+
+void if_stmt(int a, char b) {
+    if(a) {} /* deve dar erro de tipo */
+    if(a > b) {} /* funciona */
+    if(a + a < b * b && a == b || a != b) /* funciona */
+    {}
+
+}

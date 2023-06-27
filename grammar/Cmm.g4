@@ -9,16 +9,18 @@ declaration: var_decl # global_variables
 extern: 'extern';
 function_def: Id '(' param_types ')';
 var: Id ('['  Intcon ']')?;
+var_param: Id ArgPointer?;
 var_decl: type var (',' var)*;
 type: 'char' | 'int';
 param_types: 'void'
-    | type Id ArgPointer? (',' type Id ArgPointer?)*;
+    | type var_param (',' type var_param)*;
+
 function: type function_def '{' function_body '}' # typed_function
     | 'void' function_def '{' function_body '}' # void_function;
 function_body: (var_decl ';')* stmt*;
 stmt: 'if' '(' expr ')' stmt ('else' stmt)? # if_stmt
     | 'while' '(' expr ')' stmt # while_stmt
-    | 'for' '(' assign? ';' expr? ';' assign?')' stmt # for_stmt
+    | 'for' '(' def=assign? ';' expr? ';' up=assign?')' stmt # for_stmt
     | 'return' expr? ';' # return_stmt
     | assign ';' # assign_stmt
     | Id '(' (expr (',' expr)* )? ')'';' # function_call_stmt
@@ -35,7 +37,7 @@ expr: <assoc=right> op=('!' | '-') expr # unary_expr
     | expr op='&&' expr # and_expr
     | expr op='||' expr # or_expr
     | Id '(' (expr (',' expr)*)? ')' #function_call_expr
-    | Id '[' expr ']' # indexing_expr
+    | Id indexing # indexing_expr
     | Id # id_expr
     | '(' expr ')' # paren_expr
     | Intcon # int_expr
