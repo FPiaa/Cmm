@@ -16,27 +16,28 @@ param_types: 'void'
 function: type function_def '{' function_body '}' # typed_function
     | 'void' function_def '{' function_body '}' # void_function;
 function_body: (var_decl ';')* stmt*;
-stmt: 'if' '(' expr ')' stmt ('else' stmt)?
-    | 'while' '(' expr ')' stmt
-    | 'for' '(' assign? ';' expr? ';' assign?')' stmt
-    | 'return' expr? ';'
-    | assign ';'
-    | Id '(' (expr (',' expr)* )? ')'';'
-    | '{' stmt* '}'
-    | ';';
+stmt: 'if' '(' expr ')' stmt ('else' stmt)? # if_stmt
+    | 'while' '(' expr ')' stmt # while_stmt
+    | 'for' '(' assign? ';' expr? ';' assign?')' stmt # for_stmt
+    | 'return' expr? ';' # return_stmt
+    | assign ';' # assign_stmt
+    | Id '(' (expr (',' expr)* )? ')'';' # function_call_stmt
+    | '{' stmt* '}' # block_stmt
+    | ';' # semicolon
+    ;
 assign: Id indexing? '=' expr;
 indexing: '[' expr ']';
-expr: <assoc=right> op=('!' | '-') expr
-    | expr op=('*' | '/' ) expr
-    | expr op=('+' | '-') expr
-    | expr op=('<' | '<=' | '>' | '>=') expr
-    | expr op=('==' | '!=' ) expr
-    | expr op='&&' expr
-    | expr op='||' expr
-    | Id '(' (expr (',' expr)*)? ')'
-    | Id '[' expr ']'
-    | Id
-    | '(' expr ')'
-    | Intcon
-    | Charcon
-    | Stringcon;
+expr: <assoc=right> op=('!' | '-') expr # unary_expr
+    | expr op=('*' | '/' ) expr # mult_expr
+    | expr op=('+' | '-') expr # add_expr
+    | expr op=('<' | '<=' | '>' | '>=') expr # cmp_expr
+    | expr op=('==' | '!=' ) expr # eq_expr
+    | expr op='&&' expr # and_expr
+    | expr op='||' expr # or_expr
+    | Id '(' (expr (',' expr)*)? ')' #function_call_expr
+    | Id '[' expr ']' # indexing_expr
+    | Id # id_expr
+    | '(' expr ')' # paren_expr
+    | Intcon # int_expr
+    | Charcon # char_expr
+    | Stringcon # string_expr;

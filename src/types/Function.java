@@ -22,7 +22,7 @@ public class Function {
     public Function(String name, List<Variable<?>> locals, Types returnType, boolean isExtern, boolean hasPrototype, SymbolTable scope, CmmParser.FunctionContext start, int line) {
         this.name = name;
         this.returnType = returnType;
-        this.variables = new SymbolTable(scope);
+        this.variables = new SymbolTable(scope, name);
         this.isExtern = isExtern;
         this.hasPrototype = hasPrototype;
         this.start = start;

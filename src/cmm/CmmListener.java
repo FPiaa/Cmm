@@ -148,15 +148,101 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitFunction_body(CmmParser.Function_bodyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CmmParser#stmt}.
+	 * Enter a parse tree produced by the {@code if_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterStmt(CmmParser.StmtContext ctx);
+	void enterIf_stmt(CmmParser.If_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CmmParser#stmt}.
+	 * Exit a parse tree produced by the {@code if_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitStmt(CmmParser.StmtContext ctx);
+	void exitIf_stmt(CmmParser.If_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code while_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhile_stmt(CmmParser.While_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code while_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhile_stmt(CmmParser.While_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code for_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor_stmt(CmmParser.For_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code for_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor_stmt(CmmParser.For_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code return_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturn_stmt(CmmParser.Return_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code return_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturn_stmt(CmmParser.Return_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code assign_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssign_stmt(CmmParser.Assign_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code assign_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssign_stmt(CmmParser.Assign_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code function_call_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction_call_stmt(CmmParser.Function_call_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code function_call_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction_call_stmt(CmmParser.Function_call_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code block_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock_stmt(CmmParser.Block_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code block_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock_stmt(CmmParser.Block_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code semicolon}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterSemicolon(CmmParser.SemicolonContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code semicolon}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitSemicolon(CmmParser.SemicolonContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CmmParser#assign}.
 	 * @param ctx the parse tree
@@ -178,13 +264,171 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitIndexing(CmmParser.IndexingContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CmmParser#expr}.
+	 * Enter a parse tree produced by the {@code paren_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr(CmmParser.ExprContext ctx);
+	void enterParen_expr(CmmParser.Paren_exprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CmmParser#expr}.
+	 * Exit a parse tree produced by the {@code paren_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr(CmmParser.ExprContext ctx);
+	void exitParen_expr(CmmParser.Paren_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code int_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterInt_expr(CmmParser.Int_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code int_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitInt_expr(CmmParser.Int_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code add_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdd_expr(CmmParser.Add_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code add_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdd_expr(CmmParser.Add_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code id_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterId_expr(CmmParser.Id_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code id_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitId_expr(CmmParser.Id_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code indexing_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndexing_expr(CmmParser.Indexing_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code indexing_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndexing_expr(CmmParser.Indexing_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code cmp_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmp_expr(CmmParser.Cmp_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code cmp_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmp_expr(CmmParser.Cmp_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mult_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMult_expr(CmmParser.Mult_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mult_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMult_expr(CmmParser.Mult_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unary_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnary_expr(CmmParser.Unary_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unary_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnary_expr(CmmParser.Unary_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code string_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterString_expr(CmmParser.String_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code string_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitString_expr(CmmParser.String_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code and_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAnd_expr(CmmParser.And_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code and_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAnd_expr(CmmParser.And_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code or_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterOr_expr(CmmParser.Or_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code or_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitOr_expr(CmmParser.Or_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code eq_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterEq_expr(CmmParser.Eq_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code eq_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitEq_expr(CmmParser.Eq_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code function_call_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction_call_expr(CmmParser.Function_call_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code function_call_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction_call_expr(CmmParser.Function_call_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code char_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterChar_expr(CmmParser.Char_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code char_expr}
+	 * labeled alternative in {@link CmmParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitChar_expr(CmmParser.Char_exprContext ctx);
 }

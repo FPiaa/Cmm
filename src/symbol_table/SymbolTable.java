@@ -10,11 +10,19 @@ import java.util.Map;
 
 public class SymbolTable {
     public final SymbolTable parent;
+    private final String name;
     public final Map<Variable<?>, Variable<?>> variables = new HashMap<>();
     public final Map<Function, Function> functions = new HashMap<>();
-    public SymbolTable(SymbolTable parent) {
+    public SymbolTable(SymbolTable parent, String name) {
+        this.name = name;
         this.parent = parent;
     }
+
+    public SymbolTable(SymbolTable parent) {
+        this.name = "";
+        this.parent = parent;
+    }
+
     public void addVar(Variable<?> variable) throws SymbolRedefinedException {
         Variable<?> v = variables.get(variable);
         if (v != null) {
@@ -26,6 +34,7 @@ public class SymbolTable {
 
     public Variable<?> resolveVar(Variable<?> v) throws UndefinedSymbolException {
         Variable<?>  variable = variables.get(v);
+//        System.out.printf("Trying to resolve variable %s in scope %s%n", v.getName(), name);
         if(variable == null){
             if(parent == null) {
                 throw new UndefinedSymbolException("Variable %s was not defined".formatted(v.toString()));
@@ -41,9 +50,6 @@ public class SymbolTable {
         return variables.get(v);
     }
 
-//    public Variable<?> getVar(String v) {
-//        return variables.get(Variable.dummy(v));
-//    }
     public void addFunction(Function f) throws SymbolRedefinedException{
         Function fun = functions.get(f);
         if(fun != null) {
@@ -70,11 +76,15 @@ public class SymbolTable {
     }
 
     public Function resolveFunction(Function f) throws UndefinedSymbolException {
-        assert parent == null; // there is no support to local functions
         Function fun = functions.get(f);
         if (fun == null) {
-            throw new UndefinedSymbolException("Function %s was not defined.".formatted(f.name));
+            if(parent != null) {
+                return parent.resolveFunction(f);
+            }else {
+                throw new UndefinedSymbolException("Function %s was not defined.".formatted(f.name));
+            }
         }
+//        System.out.printf("Function %s, resolved in global scope%n", f.name);
         return fun;
     }
 }

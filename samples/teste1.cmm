@@ -7,13 +7,13 @@ extern char f3(void);
 char f4(int a, int b[], char c, char d[]), f5(void);
 
 int main(void) {
-    int a, b, c[10];
-    char d, e, f[10];
-    if(a > b) {
-        a = b;
+    int m1, m2, m3[10];
+    char m4, m5, m6[10];
+    if(a > m2) {
+        a = m2;
     }
     else {
-        for(c = 0; c<d; c = f2()) {
+        for(c = 0; c[0]<d; c = f2()) {
             {}
             {
                 while(a + b >= c[10] && c[0] <= d) {
@@ -23,6 +23,10 @@ int main(void) {
         }
         f5();
     }
-
+    f6();
     f[0] = (a+b)*(c[0] + c[1]);
+
+    if(z == y || y != w) {
+
+    }
 }
