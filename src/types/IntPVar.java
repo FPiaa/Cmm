@@ -28,6 +28,11 @@ public class IntPVar extends Variable<List<Integer>>{
         assert pos<data.size();
         this.data.set(pos, (int)value);
     }
+
+    @Override
+    public Variable<List<Integer>> copy() {
+        return this;
+    }
 }
 
 

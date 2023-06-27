@@ -20,4 +20,8 @@ public class IntVar extends Variable<Integer> {
         this.data = (int)data;
     }
 
+    @Override
+    public Variable<Integer> copy() {
+        return new IntVar(name, data.intValue());
+    }
 }

@@ -29,4 +29,8 @@ public class CharPVar extends Variable<List<Character>>{
         this.data.set(pos, (char) value);
     }
 
+    @Override
+    public Variable<List<Character>> copy() {
+        return this;
+    }
 }

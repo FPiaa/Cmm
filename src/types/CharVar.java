@@ -22,6 +22,9 @@ public class CharVar extends Variable<Character>{
         this.data = data;
     }
 
-
+    @Override
+    public Variable<Character> copy() {
+        return new CharVar(name, data.charValue());
+    }
 }
 

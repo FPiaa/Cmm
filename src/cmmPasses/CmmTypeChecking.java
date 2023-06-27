@@ -33,7 +33,7 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
 
     @Override
     public Types visitTyped_function(CmmParser.Typed_functionContext ctx) {
-        currentFunction = symbols.resolveFunctionInfallible(Function.dummy(ctx.function_def().Id().getText()));
+        currentFunction = symbols.resolveFunctionInfallible(ctx.function_def().Id().getText());
         symbols = currentFunction.variables;
         hasReturn = false;
         return visit(ctx.function_body());
@@ -41,7 +41,7 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
 
     @Override
     public Types visitVoid_function(CmmParser.Void_functionContext ctx) {
-        currentFunction = symbols.resolveFunctionInfallible(Function.dummy(ctx.function_def().Id().getText()));
+        currentFunction = symbols.resolveFunctionInfallible(ctx.function_def().Id().getText());
         symbols = currentFunction.variables;
         hasReturn = false;
         return visit(ctx.function_body());
@@ -68,7 +68,7 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
 
     @Override
     public Types visitAssign(CmmParser.AssignContext ctx) {
-        var variable = symbols.resolveVarInfallible(new VarDummy(ctx.Id().getText()));
+        var variable = symbols.resolveVarInfallible(ctx.Id().getText());
         Types type = variable.getType();
 
         if(ctx.indexing() != null) {
@@ -183,7 +183,7 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
                 ctx.expr()) {
             types.add(visit(exp));
         }
-        var f = symbols.resolveFunctionInfallible(Function.dummy(ctx.Id().getText()));
+        var f = symbols.resolveFunctionInfallible(ctx.Id().getText());
 
         if(f.args.size() != types.size()) {
             System.out.printf("Line %d: calling function '%s' with %d arguments, expected %d.%n",
@@ -372,7 +372,7 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
             types.add(visit(exp));
         }
 
-        var f = symbols.resolveFunctionInfallible(Function.dummy(ctx.Id().getText()));
+        var f = symbols.resolveFunctionInfallible(ctx.Id().getText());
 
         if(f.args.size() != types.size()) {
             System.out.printf("Line %d: calling function '%s' with %d arguments, expected %d.%n",
@@ -394,7 +394,7 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
 
     @Override
     public Types visitIndexing_expr(CmmParser.Indexing_exprContext ctx) {
-        var v = symbols.resolveVarInfallible(new VarDummy(ctx.Id().getText()));
+        var v = symbols.resolveVarInfallible(ctx.Id().getText());
         visit(ctx.indexing());
         if(v.getType().equals(Types.CHAR_P)) {
             return Types.CHAR;
@@ -407,7 +407,7 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
 
     @Override
     public Types visitId_expr(CmmParser.Id_exprContext ctx) {
-        var v = symbols.resolveVarInfallible(new VarDummy(ctx.Id().getText()));
+        var v = symbols.resolveVarInfallible(ctx.Id().getText());
         return v.getType();
     }
 

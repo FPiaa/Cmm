@@ -52,9 +52,17 @@ public class Variable<T> {
         return "Variable{type=%s, name='%s'}".formatted(type, name);
     }
 
-    @Override
-    public int hashCode() {
-        return getName().hashCode();
+    public Variable<T> copy() {
+        return null;
     }
 
+    @Override
+    public int hashCode() {
+        int result = getType().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getData().hashCode();
+        result = 31 * result + getLine();
+        result = 31 * result + getColumn();
+        return result;
+    }
 }

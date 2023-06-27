@@ -160,7 +160,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
         var name = ctx.function_def().Id().getText();
         var args = ctx.function_def().param_types();
         var locals = processArgs(args);
-        Function f = symbols.getFunction(Function.dummy(name));
+        Function f = symbols.getFunction(name);
         if (f != null) {
             if (type != f.returnType) {
                 System.out.println(new Exception("Function %s has prototype with return type %s, found %s".formatted(f.name, f.returnType.toString(), type.toString())).getMessage());
@@ -196,7 +196,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
         var name = ctx.function_def().Id().getText();
         var args = ctx.function_def().param_types();
         var locals = processArgs(args);
-        Function f = symbols.getFunction(Function.dummy(name));
+        Function f = symbols.getFunction(name);
         if (f != null) {
             if (Types.VOID != f.returnType) {
                 System.out.println(new Exception("Function %s has prototype with return type %s, found %s".formatted(f.name, f.returnType.toString(), Types.VOID.toString())).getMessage());
@@ -261,7 +261,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
         String name = ctx.Id().getText();
 
         try {
-            symbols.resolveFunction(Function.dummy(name));
+            symbols.resolveFunction(name);
         } catch (UndefinedSymbolException e) {
             String message = e.getMessage();
             System.out.printf("Line %d: %s%n", ctx.start.getLine(), message);
@@ -274,7 +274,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
         String name = ctx.Id().getText();
 
         try {
-            symbols.resolveFunction(Function.dummy(name));
+            symbols.resolveFunction(name);
         } catch (UndefinedSymbolException e) {
             String message = e.getMessage();
             System.out.printf("Line %d: %s%n", ctx.start.getLine(), message);
@@ -287,7 +287,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
         String name = ctx.Id().getText();
 
         try {
-            symbols.resolveVar(new VarDummy(name));
+            symbols.resolveVar(name);
         } catch (UndefinedSymbolException e) {
             String message = e.getMessage();
             System.out.printf("Line %d: %s%n", ctx.start.getLine(), message);
@@ -300,7 +300,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
         String name = ctx.Id().getText();
 
         try {
-            symbols.resolveVar(new VarDummy(name));
+            symbols.resolveVar(name);
         } catch (UndefinedSymbolException e) {
             String message = e.getMessage();
             System.out.printf("Line %d: %s%n", ctx.start.getLine(), message);

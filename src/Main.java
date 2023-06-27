@@ -51,12 +51,12 @@ public class Main {
         CmmEval eval = new CmmEval(listener.symbols);
         Function main = null;
         try {
-            main = listener.symbols.resolveFunction(Function.dummy("main"));
+            main = listener.symbols.resolveFunction("main");
         } catch (UndefinedSymbolException e) {
             System.out.println(e.getMessage());
             return;
         }
-
+        eval.symbols.push(main.variables);
         eval.visit(main.start);
         System.out.printf("%n%n");
 

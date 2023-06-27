@@ -1,0 +1,13 @@
+int fib(int n, int arr[]) {
+    if (n <= 0) {return 1;}
+    arr[n] = n * fib(n-1, arr);
+    return arr[n];
+}
+
+int main(void) {
+    int i, arr[11];
+
+    fib(10, arr);
+    print(arr);
+    return 0;
+}

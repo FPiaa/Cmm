@@ -6,15 +6,17 @@ import symbol_table.SymbolTable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 import cmm.CmmParser;
 
-public class Function {
+public class Function implements Cloneable{
     public final String name;
     public final SymbolTable variables;
     public final List<Variable<?>> args;
     public final Types returnType;
-    public final boolean isExtern;
-    public final boolean hasPrototype;
+    public  boolean isExtern;
+    public  boolean hasPrototype;
     public boolean failCompilation = false;
     public CmmParser.FunctionContext start;
     public int line;
@@ -37,6 +39,17 @@ public class Function {
                 failCompilation = true;
             }
         }
+    }
+    public Function(String name, List<Variable<?>> locals, Types returnType, SymbolTable table, CmmParser.FunctionContext start, int line) {
+        this.name = name;
+        this.returnType = returnType;
+        this.variables = table;
+        this.start = start;
+        this.line = line;
+        isExtern = false;
+        hasPrototype = false;
+        args = locals;
+
     }
 
     @Override
@@ -63,8 +76,19 @@ public class Function {
         }
         return null;
     }
+
     @Override
-    public int hashCode() {
-        return  name.hashCode();
+    public Object clone() throws CloneNotSupportedException {
+        SymbolTable symbolTable = new SymbolTable(variables.parent, variables.name);
+        for (var v : variables.variables.keySet()) {
+            symbolTable.addVarInfallible(variables.resolveVarInfallible(v).copy());
+        }
+        for (var v : variables.functions.keySet()) {
+            symbolTable.addFunctionInfallible(variables.resolveFunctionInfallible(v));
+        }
+        Function f =new Function(name, args, returnType, symbolTable, start, line);
+        f.isExtern = isExtern;
+        f.hasPrototype = hasPrototype;
+        return (Object) f;
     }
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Stack;
 
 public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
-    private final Stack<SymbolTable> symbols;
+    public final Stack<SymbolTable> symbols;
 
     public CmmEval(SymbolTable s)  {
         symbols = new Stack<>();
@@ -23,21 +23,15 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     @Override
     public RuntimeValue<?> visitTyped_function(CmmParser.Typed_functionContext ctx) {
         var symbol = symbols.peek();
-        var f = symbol.resolveFunctionInfallible(Function.dummy(ctx.function_def().Id().getText()));
-        symbols.push(f.variables);
-        var ret = visit(ctx.function_body());
-        symbols.pop();
-        return ret;
+        var f = symbol.resolveFunctionInfallible(ctx.function_def().Id().getText());
+        return visit(ctx.function_body());
     }
 
     @Override
     public RuntimeValue<?> visitVoid_function(CmmParser.Void_functionContext ctx) {
         var symbol = symbols.peek();
-        var f = symbol.resolveFunctionInfallible(Function.dummy(ctx.function_def().Id().getText()));
-        symbols.push(f.variables);
-        var ret = visit(ctx.function_body());
-        symbols.pop();
-        return ret;
+        var f = symbol.resolveFunctionInfallible(ctx.function_def().Id().getText());
+        return visit(ctx.function_body());
     }
 
     @Override
@@ -124,9 +118,9 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     @Override
     public RuntimeValue<?> visitAssign(CmmParser.AssignContext ctx) {
         var symbol = symbols.peek();
-        var variable = symbol.resolveVarInfallible(new VarDummy(ctx.Id().getText()));
-        var value = visit(ctx.expr());
+        var variable = symbol.resolveVarInfallible(ctx.Id().getText());
         var index = ctx.indexing() != null ? (IntValue) visit(ctx.indexing().expr()) : null;
+        var value = visit(ctx.expr());
         updateVariable(variable, value, index);
 
         return new VoidValue();
@@ -196,7 +190,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
         for (int i = 0; i < args.size(); i++) {
             var v = f.args.get(i);
             var symbol = symbols.peek();
-            var variable = symbol.resolveVarInfallible(v);
+            var variable = symbol.resolveVarInfallible(v.getName());
             updateVariable(variable, args.get(i), null);
         }
     }
@@ -205,7 +199,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     public RuntimeValue<?> visitFunction_call_stmt(CmmParser.Function_call_stmtContext ctx) {
         List<RuntimeValue<?>> args = new ArrayList<>();
         var symbol = symbols.peek();
-        Function f = symbol.resolveFunctionInfallible(Function.dummy(ctx.Id().getText()));
+        Function f = symbol.resolveFunctionInfallible(ctx.Id().getText());
         for (var e :
                 ctx.expr()) {
             args.add(visit(e));
@@ -487,6 +481,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     public RuntimeValue<?> visitMult_expr(CmmParser.Mult_exprContext ctx) {
         var e1 = visit(ctx.expr(0));
         var e2 = visit(ctx.expr(1));
+        System.out.println(e2.getData());
         return runOp(e1, e2, ctx.op.getText());
     }
 
@@ -528,7 +523,13 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     @Override
     public RuntimeValue<?> visitFunction_call_expr(CmmParser.Function_call_exprContext ctx) {
         var symbol = symbols.peek();
-        Function f = symbol.resolveFunctionInfallible(Function.dummy(ctx.Id().getText()));
+        Function f = null;
+        try {
+            f = (Function) symbol.resolveFunctionInfallible(ctx.Id().getText()).clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(f.variables.hashCode());
         List<RuntimeValue<?>> args = new ArrayList<>();
         for (var e :
                 ctx.expr()) {
@@ -546,7 +547,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     public RuntimeValue<?> visitIndexing_expr(CmmParser.Indexing_exprContext ctx) {
         var index = (IntValue)visit(ctx.indexing().expr());
         var symbol = symbols.peek();
-        var variable = symbol.resolveVarInfallible(new VarDummy(ctx.Id().getText()));
+        var variable = symbol.resolveVarInfallible(ctx.Id().getText());
         switch (variable.getType()) {
             case INT_P -> {
                 var ret = ((IntPVar) variable).getData().get(index.getData());
@@ -564,7 +565,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     @Override
     public RuntimeValue<?> visitId_expr(CmmParser.Id_exprContext ctx) {
        var symbol = symbols.peek();
-       var variable = symbol.resolveVarInfallible(new VarDummy(ctx.Id().getText()));
+       var variable = symbol.resolveVarInfallible(ctx.Id().getText());
        switch (variable.getType()) {
            case INT_P -> {return new IntPValue(((IntPVar)variable).getData());}
            case INT -> {return new IntValue(((IntVar)variable).getData());}
