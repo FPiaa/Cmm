@@ -196,7 +196,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
             }
         }
         symbols = f.variables;
-        failCompilation = f.failCompilation;
+        failCompilation = failCompilation || f.failCompilation;
     }
 
     @Override
@@ -232,7 +232,7 @@ public class CmmSymbolSolverListener extends CmmBaseListener {
             }
         }
         symbols = f.variables;
-        failCompilation = f.failCompilation;
+        failCompilation = failCompilation || f.failCompilation;
     }
 
     @Override
