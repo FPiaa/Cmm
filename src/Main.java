@@ -7,11 +7,13 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.antlr.v4.runtime.Parser;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,37 +26,42 @@ public class Main {
         CmmParser parser = new CmmParser(tokens);
         ParseTree tree = parser.prog();
         CmmSymbolSolverListener listener = new CmmSymbolSolverListener();
-
+        if(parser.getNumberOfSyntaxErrors() > 0) {
+            System.out.flush();
+            System.out.println("Compilation ended due to previous errors");
+            return;
+        }
         ParseTreeWalker walker = new ParseTreeWalker();
-
         walker.walk(listener, tree);
         if(listener.failCompilation) {
-            System.out.println("Compilation ended due to previous erros");
+            System.out.println("Compilation ended due to previous errors");
             return;
         }
         CmmTypeChecking typeChecker = new CmmTypeChecking(listener.symbols);
         tree.accept(typeChecker);
 
         if(typeChecker.failCompilation) {
-            System.out.println("Compilation ended due to previous erros");
+            System.out.println("Compilation ended due to previous errors");
             return;
         }
-        System.out.println();
+        System.out.printf("%n%n");
 
     }
 
     public static void main(String[] args) {
 
         if (args.length > 0) {
-            Set<String> files = Stream.of(Objects.requireNonNull(new File("samples").listFiles()))
+            System.out.println(args[0]);
+            Set<String> files = Stream.of(Objects.requireNonNull(new File(args[0]).listFiles()))
                     .filter(file -> !file.isDirectory())
                     .map(File::getName)
-                    .map((name -> "samples/" + name))
+                    .map((name -> "%s/%s".formatted(args[0], name)))
                     .collect(Collectors.toSet());
             for (String file : files) {
                 try {
                     System.out.printf("Compiling file %s.%n", file);
                     runParser(Files.newInputStream(Path.of(file)));
+                    System.out.flush();
                 } catch (IOException e) {
                     System.err.println("Error reading file " + file);
                 }
