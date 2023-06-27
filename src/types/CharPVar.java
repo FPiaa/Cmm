@@ -1,8 +1,9 @@
 package types;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class CharPVar extends Variable<ArrayList<Character>>{
+public class CharPVar extends Variable<List<Character>>{
 
     public CharPVar(String name, int size) {
         this.name = name;
@@ -18,6 +19,11 @@ public class CharPVar extends Variable<ArrayList<Character>>{
     public void set(int pos, char value) {
         assert pos<data.size();
         this.data.set(pos, value);
+    }
+
+    public void set(int pos, int value) {
+        assert pos<data.size();
+        this.data.set(pos, (char) value);
     }
 
 }

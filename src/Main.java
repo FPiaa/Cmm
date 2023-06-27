@@ -1,13 +1,16 @@
 import cmm.CmmLexer;
 import cmm.CmmParser;
+import cmmPasses.CmmEval;
 import cmmPasses.CmmSymbolSolverListener;
 import cmmPasses.CmmTypeChecking;
+import exceptions.UndefinedSymbolException;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.Parser;
+import types.Function;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -44,6 +47,17 @@ public class Main {
             System.out.println("Compilation ended due to previous errors");
             return;
         }
+
+        CmmEval eval = new CmmEval(listener.symbols);
+        Function main = null;
+        try {
+            main = listener.symbols.resolveFunction(Function.dummy("main"));
+        } catch (UndefinedSymbolException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+
+        eval.visit(main.start);
         System.out.printf("%n%n");
 
     }

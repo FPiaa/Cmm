@@ -242,6 +242,18 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitBlock_stmt(CmmParser.Block_stmtContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code print_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrint_stmt(CmmParser.Print_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code print_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrint_stmt(CmmParser.Print_stmtContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code semicolon}
 	 * labeled alternative in {@link CmmParser#stmt}.
 	 * @param ctx the parse tree

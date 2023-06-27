@@ -149,6 +149,13 @@ public interface CmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlock_stmt(CmmParser.Block_stmtContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code print_stmt}
+	 * labeled alternative in {@link CmmParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrint_stmt(CmmParser.Print_stmtContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code semicolon}
 	 * labeled alternative in {@link CmmParser#stmt}.
 	 * @param ctx the parse tree
