@@ -1,0 +1,12 @@
+void for_ok(int a, int b) {
+    for(a = 0; !(-a < b); a = a - 1) {}
+    for( ; b == a; ) {}
+}
+
+void for_fail(int a, int b[], char c, char d[]) {
+    for (;  a ; ) {}
+    for (; c ;) {}
+    for (; d ;) {}
+    for (; b ;) {}
+
+}

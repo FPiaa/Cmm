@@ -83,8 +83,8 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
         var expr_type = visit(ctx.expr());
 
         if(!compatible_with(type, expr_type)) {
-            System.out.printf("Line %d: Left side expected type %s, but right side evaluated to %s.%n",
-                    ctx.start.getLine(), variable.getType().toString(), expr_type.toString());
+            System.out.printf("Line %d: Left side expected type %s, but right side evaluated to %s in %s.%n",
+                    ctx.start.getLine(), variable.getType().toString(), expr_type.toString(), ctx.getText());
             failCompilation = true;
         }
 
@@ -96,8 +96,8 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
     public Types visitIf_stmt(CmmParser.If_stmtContext ctx) {
         var cond_type = visit(ctx.expr());
         if(!compatible_with(Types.BOOL, cond_type)) {
-            System.out.printf("Line %d: 'If' condition has to have type BOOL, found %s.%n",
-                    ctx.start.getLine(), cond_type.toString());
+            System.out.printf("Line %d: 'If' condition has to have type BOOL, found %s in %s.%n",
+                    ctx.start.getLine(), cond_type.toString(), ctx.getText());
             failCompilation = true;
         }
         visit(ctx.stmt(0));
@@ -113,8 +113,8 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
     public Types visitWhile_stmt(CmmParser.While_stmtContext ctx) {
         var cond_type = visit(ctx.expr());
         if(!compatible_with(Types.BOOL, cond_type)) {
-            System.out.printf("Line %d: 'While' condition has to have type BOOL, found%s.%n",
-                    ctx.start.getLine(), cond_type.toString());
+            System.out.printf("Line %d: 'While' condition has to have type BOOL, found %s in %s.%n",
+                    ctx.start.getLine(), cond_type.toString(), ctx.getText());
             failCompilation = true;
         }
 
@@ -131,8 +131,8 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
         if (ctx.expr() != null) {
             var cond_type = visit(ctx.expr());
             if(!compatible_with(Types.BOOL, cond_type)) {
-                System.out.printf("Line %d: 'For' condition has to have type BOOL, found%s.%n",
-                        ctx.start.getLine(), cond_type.toString());
+                System.out.printf("Line %d: 'For' condition has to have type BOOL, found %s in %s.%n",
+                        ctx.start.getLine(), cond_type.toString(), ctx.getText());
                 failCompilation = true;
             }
         }
@@ -150,15 +150,15 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
         hasReturn = true;
         if(currentFunction.returnType == Types.VOID) {
             if(ctx.expr() != null) {
-                System.out.printf("Line %d: 'return' cannot have a expression in a VOID function.%n",
-                        ctx.start.getLine());
+                System.out.printf("Line %d: 'return' cannot have a expression in a VOID function %s.%n",
+                        ctx.start.getLine(), currentFunction.name);
                 failCompilation = true;
             }
         }
         else {
             if(ctx.expr() == null) {
-                System.out.printf("Line %d: 'return' has to have a value in a non VOID function.%n",
-                        ctx.start.getLine());
+                System.out.printf("Line %d: 'return' cannot be empty in function %s %s.%n",
+                        ctx.start.getLine(), currentFunction.returnType, currentFunction.name);
                 failCompilation = true;
             }
             else {

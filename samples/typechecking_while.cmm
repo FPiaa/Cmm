@@ -1,0 +1,17 @@
+void while_ok(int a, int b) {
+    char c[10];
+    while(a < b) {}
+    while (a == b) {}
+    while (a != 0) {}
+    while (a > b || a >= b && a < b || a <= b) {}
+    while(a < c[0]) {}
+}
+
+int while_fail(int a, int b) {
+    int c[10];
+    int d[10];
+    while(a) {}
+    while(d) {}
+    while(a == d) {}
+    while (a < c){}
+}

@@ -1,0 +1,18 @@
+void if_stmt_ok(int a, char b) {
+    int c[10];
+    char d[10];
+    if(a > b) {} /* funciona */
+    if(-(a + a) < b * b && a == b || a != b) /* funciona */
+    {}
+}
+void if_stmt_fail(int a, char b) {
+    int c[10];
+    char d[10];
+    if(a) {} /* deve dar erro de tipo */
+    if(b) {} /* error */
+    if(c) {}
+    if(d) {}
+    if(a && b || c || d) {}
+    if(a + b) {}
+    if (!a) {}
+}
