@@ -11,14 +11,15 @@ import cmm.CmmParser;
 public class Function {
     public final String name;
     public final SymbolTable variables;
-    private final List<Variable<?>> args;
+    public final List<Variable<?>> args;
     public final Types returnType;
     public final boolean isExtern;
     public final boolean hasPrototype;
-    public final CmmParser.FunctionContext start;
-    private final int line;
+    public boolean failCompilation = false;
+    public CmmParser.FunctionContext start;
+    public int line;
 
-    public Function(String name, List<Variable<?>> locals, Types returnType, boolean isExtern, boolean hasPrototype, SymbolTable scope, CmmParser.FunctionContext start, int line) throws Exception {
+    public Function(String name, List<Variable<?>> locals, Types returnType, boolean isExtern, boolean hasPrototype, SymbolTable scope, CmmParser.FunctionContext start, int line) {
         this.name = name;
         this.returnType = returnType;
         this.variables = new SymbolTable(scope);
@@ -36,8 +37,6 @@ public class Function {
                 failCompilation = true;
             }
         }
-        if (failCompilation)
-            throw new Exception();
     }
 
     @Override

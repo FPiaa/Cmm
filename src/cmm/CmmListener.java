@@ -64,16 +64,6 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitExtern(CmmParser.ExternContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CmmParser#void}.
-	 * @param ctx the parse tree
-	 */
-	void enterVoid(CmmParser.VoidContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CmmParser#void}.
-	 * @param ctx the parse tree
-	 */
-	void exitVoid(CmmParser.VoidContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CmmParser#function_def}.
 	 * @param ctx the parse tree
 	 */
@@ -124,15 +114,39 @@ public interface CmmListener extends ParseTreeListener {
 	 */
 	void exitParam_types(CmmParser.Param_typesContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CmmParser#function}.
+	 * Enter a parse tree produced by the {@code typed_function}
+	 * labeled alternative in {@link CmmParser#function}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunction(CmmParser.FunctionContext ctx);
+	void enterTyped_function(CmmParser.Typed_functionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CmmParser#function}.
+	 * Exit a parse tree produced by the {@code typed_function}
+	 * labeled alternative in {@link CmmParser#function}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunction(CmmParser.FunctionContext ctx);
+	void exitTyped_function(CmmParser.Typed_functionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code void_function}
+	 * labeled alternative in {@link CmmParser#function}.
+	 * @param ctx the parse tree
+	 */
+	void enterVoid_function(CmmParser.Void_functionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code void_function}
+	 * labeled alternative in {@link CmmParser#function}.
+	 * @param ctx the parse tree
+	 */
+	void exitVoid_function(CmmParser.Void_functionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CmmParser#function_body}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction_body(CmmParser.Function_bodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CmmParser#function_body}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction_body(CmmParser.Function_bodyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CmmParser#stmt}.
 	 * @param ctx the parse tree

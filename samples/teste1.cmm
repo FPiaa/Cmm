@@ -1,9 +1,28 @@
+int a, b[10];
+char c[1000], d;
 
-int a,b [10], c[1];
-char d;
-char e [100];
-int a(int a, int b);
-extern int b(char a, char b[]), c(void);
-char d(int a, int b), e(char a, char b[]), f(void);
-char d(int a, int b), e(char a, char b[]);
-extern char f(void);
+extern int f1(void);
+int f2(int a, int b[], char c, char d[]);
+extern char f3(void);
+char f4(int a, int b[], char c, char d[]), f5(void);
+
+int main(void) {
+    int a, b, c[10];
+    char d, e, f[10];
+    if(a > b) {
+        a = b;
+    }
+    else {
+        for(c = 0; c<d; c = f2()) {
+            {}
+            {
+                while(a + b >= c[10] && c[0] <= d) {
+                    return 5;
+                }
+            }
+        }
+        f5();
+    }
+
+    f[0] = (a+b)*(c[0] + c[1]);
+}

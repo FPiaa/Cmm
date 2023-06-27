@@ -65,6 +65,10 @@ public class SymbolTable {
         variables.put(v, v);
     }
 
+    public void addVarInfallible(Variable<?> v) {
+        variables.put(v, v);
+    }
+
     public Function resolveFunction(Function f) throws UndefinedSymbolException {
         assert parent == null; // there is no support to local functions
         Function fun = functions.get(f);
