@@ -42,11 +42,14 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
 
     @Override
     public RuntimeValue<?> visitFunction_body(CmmParser.Function_bodyContext ctx) {
+        for(var d: ctx.var_decl()) {
+            visit(d);
+        }
         for (var s :
                 ctx.stmt()) {
             var ret = visit(s);
-            if(!(ret instanceof VoidValue)) {
-                return ret;
+            if(ret instanceof ReturnValue<?>) {
+                return ((ReturnValue<?>) ret).getData();
             }
         }
 
@@ -57,11 +60,11 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     public RuntimeValue<?> visitIf_stmt(CmmParser.If_stmtContext ctx) {
         BoolValue condition = (BoolValue)visit(ctx.expr());
         if(condition.getData()) {
-            visit(ctx.stmt(0));
+            return visit(ctx.stmt(0));
         }
         else {
             if (ctx.stmt().size() == 2) {
-                visit(ctx.stmt(1));
+                return visit(ctx.stmt(1));
             }
         }
         return new VoidValue();
@@ -73,7 +76,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
         while(condition.getData()) {
             var eval = visit(ctx.stmt());
             if (eval instanceof ReturnValue<?>) {
-                return ((ReturnValue<?>)eval).getData();
+                return eval;
             }
             condition = (BoolValue) visit(ctx.expr());
         }
@@ -93,7 +96,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
 
             var eval = visit(ctx.stmt());
             if (eval instanceof ReturnValue<?>) {
-                return ((ReturnValue<?>)eval).getData();
+                return eval;
             }
             if(ctx.up != null) {
                 visit(ctx.up);
@@ -123,7 +126,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
         var symbol = symbols.peek();
         var variable = symbol.resolveVarInfallible(new VarDummy(ctx.Id().getText()));
         var value = visit(ctx.expr());
-        var index = ctx.indexing() != null ? (IntValue) visit(ctx.indexing()) : null;
+        var index = ctx.indexing() != null ? (IntValue) visit(ctx.indexing().expr()) : null;
         updateVariable(variable, value, index);
 
         return new VoidValue();
@@ -220,7 +223,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
                 ctx.stmt()) {
             var eval = visit(s);
             if (eval instanceof ReturnValue<?>) {
-                return ((ReturnValue<?>)eval).getData();
+                return eval;
             }
         }
         return new VoidValue();
@@ -250,6 +253,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     }
 
     private RuntimeValue<?> runOp(RuntimeValue<?>e1, RuntimeValue<?>e2, String op) {
+
         switch (op) {
             case "*" -> {
                 if (e1 instanceof IntValue && e2 instanceof IntValue) {
@@ -476,7 +480,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
                 }
             }
         }
-        throw new Error("Invalid binary op");
+        throw new Error("Invalid binary op " + op);
     }
 
     @Override
@@ -535,7 +539,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
         setupFunctionCall(f, args);
         var ret = visit(f.start);
         symbols.pop();
-        return ret;
+        return (RuntimeValue<?>) ret;
     }
 
     @Override

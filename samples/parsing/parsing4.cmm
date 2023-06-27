@@ -1,0 +1,31 @@
+char test[10];
+int fib(int n);
+void print_stuff(int n) {
+    if n > 10 return;
+
+   print(fib(i));
+   teste[i] = fib(i);
+   print(teste[i]);
+
+}
+int main(void) {
+    int i;
+    char teste[10];
+    for(i = 0; i < 10; i = i + 1) {
+        print_stuff(i);
+    }
+    print_stuff(50);
+    i = 0;
+    while(i < 10) {
+        print_stuff(i)
+        i = i + 1;
+    }
+    print(teste);
+
+    return 0;
+}
+
+int fib(int n) {
+    if(n <= 1) return 1;
+    else return n * fib(n - 1);
+}

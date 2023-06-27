@@ -9,6 +9,9 @@ public class IntPVar extends Variable<List<Integer>>{
         this.name = name;
         this.type = Types.INT_P;
         this.data = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            this.data.add(0);
+        }
     }
 
     public Integer index(int pos) {

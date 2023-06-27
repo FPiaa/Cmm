@@ -9,6 +9,9 @@ public class CharPVar extends Variable<List<Character>>{
         this.name = name;
         this.type = Types.CHAR_P;
         this.data = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            this.data.add('\0');
+        }
     }
 
     public Character index(int pos) {
