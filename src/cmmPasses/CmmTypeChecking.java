@@ -52,7 +52,7 @@ public class CmmTypeChecking extends CmmBaseVisitor<Types>{
         for (var s: ctx.stmt()) {
            visit(s);
         }
-        if (!currentFunction.returnType.equals(Types.VOID)) {
+        if (!currentFunction.returnType.equals(Types.VOID) && !hasReturn) {
             System.out.printf("Line %d: Function %s with return type %s has to have at least one 'return' statement.%n"
                     , ctx.start.getLine(), currentFunction.name, currentFunction.returnType.toString());
             failCompilation = true;
