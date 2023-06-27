@@ -46,6 +46,14 @@ public class SymbolTable {
         return variable;
     }
 
+    public Variable<?> resolveVarInfallible(Variable<?> v) {
+        Variable<?>  variable = variables.get(v);
+        if(variable == null){
+                return parent.resolveVarInfallible(v);
+        }
+        return variable;
+    }
+
     public Variable<?> getVar(Variable<?> v) {
         return variables.get(v);
     }
@@ -85,6 +93,14 @@ public class SymbolTable {
             }
         }
 //        System.out.printf("Function %s, resolved in global scope%n", f.name);
+        return fun;
+    }
+
+    public Function resolveFunctionInfallible(Function f) {
+        var fun = functions.get(f);
+        if(fun == null) {
+            return parent.resolveFunctionInfallible(f);
+        }
         return fun;
     }
 }

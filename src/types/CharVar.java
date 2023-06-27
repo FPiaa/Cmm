@@ -15,6 +15,13 @@ public class CharVar extends Variable<Character>{
         this.data = null;
     }
 
+    public void setData(int data) {
+        this.data = (char) data;
+    }
+    public void setData(char data) {
+        this.data = data;
+    }
+
 
 }
 

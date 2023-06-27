@@ -1,6 +1,7 @@
 import cmm.CmmLexer;
 import cmm.CmmParser;
 import cmmPasses.CmmSymbolSolverListener;
+import cmmPasses.CmmTypeChecking;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -32,6 +33,17 @@ public class Main {
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, tree);
+        if(listener.failCompilation) {
+            System.out.println("Compilation ended due to previous erros");
+            return;
+        }
+        CmmTypeChecking typeChecker = new CmmTypeChecking(listener.symbols);
+        tree.accept(typeChecker);
+
+        if(typeChecker.failCompilation) {
+            System.out.println("Compilation ended due to previous erros");
+            return;
+        }
         System.out.println();
 
     }
@@ -46,6 +58,7 @@ public class Main {
                     .collect(Collectors.toSet());
             for (String file : files) {
                 try {
+                    System.out.printf("Compiling file %s.%n", file);
                     runParser(Files.newInputStream(Path.of(file)));
                 } catch (IOException e) {
                     System.err.println("Error reading file " + file);
