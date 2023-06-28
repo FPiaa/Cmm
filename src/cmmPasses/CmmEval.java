@@ -8,13 +8,12 @@ import types.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Stack;
 
 public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     public final Stack<SymbolTable> symbols;
 
-    public CmmEval(SymbolTable s)  {
+    public CmmEval(SymbolTable s) {
         symbols = new Stack<>();
         symbols.push(s);
     }
@@ -36,13 +35,13 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
 
     @Override
     public RuntimeValue<?> visitFunction_body(CmmParser.Function_bodyContext ctx) {
-        for(var d: ctx.var_decl()) {
+        for (var d : ctx.var_decl()) {
             visit(d);
         }
         for (var s :
                 ctx.stmt()) {
             var ret = visit(s);
-            if(ret instanceof ReturnValue<?>) {
+            if (ret instanceof ReturnValue<?>) {
                 return ((ReturnValue<?>) ret).getData();
             }
         }
@@ -52,11 +51,10 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
 
     @Override
     public RuntimeValue<?> visitIf_stmt(CmmParser.If_stmtContext ctx) {
-        BoolValue condition = (BoolValue)visit(ctx.expr());
-        if(condition.getData()) {
+        BoolValue condition = (BoolValue) visit(ctx.expr());
+        if (condition.getData()) {
             return visit(ctx.stmt(0));
-        }
-        else {
+        } else {
             if (ctx.stmt().size() == 2) {
                 return visit(ctx.stmt(1));
             }
@@ -67,7 +65,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     @Override
     public RuntimeValue<?> visitWhile_stmt(CmmParser.While_stmtContext ctx) {
         BoolValue condition = (BoolValue) visit(ctx.expr());
-        while(condition.getData()) {
+        while (condition.getData()) {
             var eval = visit(ctx.stmt());
             if (eval instanceof ReturnValue<?>) {
                 return eval;
@@ -80,11 +78,11 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
 
     @Override
     public RuntimeValue<?> visitFor_stmt(CmmParser.For_stmtContext ctx) {
-        if(ctx.def != null) {
+        if (ctx.def != null) {
             visit(ctx.def);
         }
 
-        BoolValue condition = ctx.expr() != null? (BoolValue) visit(ctx.expr()) : new BoolValue(true);
+        BoolValue condition = ctx.expr() != null ? (BoolValue) visit(ctx.expr()) : new BoolValue(true);
 
         while (condition.getData()) {
 
@@ -92,10 +90,10 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
             if (eval instanceof ReturnValue<?>) {
                 return eval;
             }
-            if(ctx.up != null) {
+            if (ctx.up != null) {
                 visit(ctx.up);
             }
-            condition = ctx.expr() != null? (BoolValue) visit(ctx.expr()) : new BoolValue(true);
+            condition = ctx.expr() != null ? (BoolValue) visit(ctx.expr()) : new BoolValue(true);
         }
 
         return new VoidValue();
@@ -130,57 +128,55 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
         switch (variable.getType()) {
             case INT_P -> {
                 // array to array
-                if(index == null) {
+                if (index == null) {
                     var v = (IntPValue) value;
-                    ((IntPVar)variable).setData(v.getData());
-                }
-                else{
+                    ((IntPVar) variable).setData(v.getData());
+                } else {
                     if (value instanceof IntValue) {
                         var v = (IntValue) value;
-                        ((IntPVar)variable).set(index.getData(), v.getData());
+                        ((IntPVar) variable).set(index.getData(), v.getData());
                     }
-                    if(value instanceof CharValue) {
+                    if (value instanceof CharValue) {
                         var v = (CharValue) value;
-                        ((IntPVar)variable).set(index.getData(), v.getData());
+                        ((IntPVar) variable).set(index.getData(), v.getData());
                     }
                 }
             }
             case CHAR_P -> {
-                if(index == null) {
+                if (index == null) {
                     var v = (CharPValue) value;
                     ((CharPVar) variable).setData(v.getData());
-                }
-                else{
+                } else {
                     if (value instanceof IntValue) {
                         var v = (IntValue) value;
-                        ((CharPVar)variable).set(index.getData(), v.getData());
+                        ((CharPVar) variable).set(index.getData(), v.getData());
                     }
-                    if(value instanceof CharValue) {
+                    if (value instanceof CharValue) {
                         var v = (CharValue) value;
-                        ((CharPVar)variable).set(index.getData(), v.getData());
+                        ((CharPVar) variable).set(index.getData(), v.getData());
                     }
                 }
             }
             case CHAR -> {
                 assert index == null;
-                if(value instanceof IntValue){
+                if (value instanceof IntValue) {
                     var v = (IntValue) value;
-                    ((CharVar)variable).setData(v.getData());
+                    ((CharVar) variable).setData(v.getData());
                 }
-                if(value instanceof CharValue){
+                if (value instanceof CharValue) {
                     var v = (CharValue) value;
-                    ((CharVar)variable).setData(v.getData());
+                    ((CharVar) variable).setData(v.getData());
                 }
             }
             case INT -> {
                 assert index == null;
-                if(value instanceof IntValue){
+                if (value instanceof IntValue) {
                     var v = (IntValue) value;
-                    ((IntVar)variable).setData(v.getData());
+                    ((IntVar) variable).setData(v.getData());
                 }
-                if(value instanceof CharValue){
+                if (value instanceof CharValue) {
                     var v = (CharValue) value;
-                    ((IntVar)variable).setData(v.getData());
+                    ((IntVar) variable).setData(v.getData());
                 }
             }
         }
@@ -200,7 +196,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
         try {
             clone = (Function) f.clone();
         } catch (CloneNotSupportedException ignored) {
-            throw   new Error("Unsupported clone in function");
+            throw new Error("Unsupported clone in function");
         }
         symbols.push(clone.variables);
         setupFunctionCall(f, args);
@@ -246,17 +242,17 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
         switch (ctx.op.getText()) {
             case "!" -> {
                 var v = (BoolValue) expr;
-                return new BoolValue(! v.getData());
+                return new BoolValue(!v.getData());
             }
-            case "-" ->  {
+            case "-" -> {
                 var v = (IntValue) expr;
-                return new IntValue(- v.getData());
+                return new IntValue(-v.getData());
             }
         }
         throw new Error("Error visiting unary expr %s".formatted(ctx.getText()));
     }
 
-    private RuntimeValue<?> runOp(RuntimeValue<?>e1, RuntimeValue<?>e2, String op) {
+    private RuntimeValue<?> runOp(RuntimeValue<?> e1, RuntimeValue<?> e2, String op) {
 
         switch (op) {
             case "*" -> {
@@ -281,11 +277,12 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
                     return new IntValue(t1.getData() * t2.getData());
                 }
             }
-            case "/" -> {if (e1 instanceof IntValue && e2 instanceof IntValue) {
-                var t1 = (IntValue) e1;
-                var t2 = (IntValue) e2;
-                return new IntValue(t1.getData() / t2.getData());
-            }
+            case "/" -> {
+                if (e1 instanceof IntValue && e2 instanceof IntValue) {
+                    var t1 = (IntValue) e1;
+                    var t2 = (IntValue) e2;
+                    return new IntValue(t1.getData() / t2.getData());
+                }
                 if (e1 instanceof IntValue && e2 instanceof CharValue) {
                     var t1 = (IntValue) e1;
                     var t2 = (CharValue) e2;
@@ -300,7 +297,8 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
                     var t1 = (CharValue) e1;
                     var t2 = (CharValue) e2;
                     return new IntValue(t1.getData() / t2.getData());
-                }}
+                }
+            }
             case "-" -> {
 
                 if (e1 instanceof IntValue && e2 instanceof IntValue) {
@@ -369,7 +367,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
                     return new BoolValue(t1.getData() < t2.getData());
                 }
             }
-            case "<=" ->  {
+            case "<=" -> {
                 if (e1 instanceof IntValue && e2 instanceof IntValue) {
                     var t1 = (IntValue) e1;
                     var t2 = (IntValue) e2;
@@ -438,7 +436,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
                 }
             }
 
-            case "==" ->{
+            case "==" -> {
                 if (e1 instanceof IntValue && e2 instanceof IntValue) {
                     var t1 = (IntValue) e1;
                     var t2 = (IntValue) e2;
@@ -517,22 +515,22 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
 
     @Override
     public RuntimeValue<?> visitOr_expr(CmmParser.Or_exprContext ctx) {
-        var e1 = (BoolValue)visit(ctx.expr(0));
-        var e2 = (BoolValue)visit(ctx.expr(1));
+        var e1 = (BoolValue) visit(ctx.expr(0));
+        var e2 = (BoolValue) visit(ctx.expr(1));
         return new BoolValue(e1.getData() || e2.getData());
     }
 
     @Override
     public RuntimeValue<?> visitAnd_expr(CmmParser.And_exprContext ctx) {
-        var e1 = (BoolValue)visit(ctx.expr(0));
-        var e2 = (BoolValue)visit(ctx.expr(1));
+        var e1 = (BoolValue) visit(ctx.expr(0));
+        var e2 = (BoolValue) visit(ctx.expr(1));
         return new BoolValue(e1.getData() || e2.getData());
     }
 
     @Override
     public RuntimeValue<?> visitFunction_call_expr(CmmParser.Function_call_exprContext ctx) {
         var symbol = symbols.peek();
-        Function f =  symbol.resolveFunctionInfallible(ctx.Id().getText());
+        Function f = symbol.resolveFunctionInfallible(ctx.Id().getText());
         List<RuntimeValue<?>> args = new ArrayList<>();
         for (var e :
                 ctx.expr()) {
@@ -544,7 +542,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
 
     @Override
     public RuntimeValue<?> visitIndexing_expr(CmmParser.Indexing_exprContext ctx) {
-        var index = (IntValue)visit(ctx.indexing().expr());
+        var index = (IntValue) visit(ctx.indexing().expr());
         var symbol = symbols.peek();
         var variable = symbol.resolveVarInfallible(ctx.Id().getText());
         switch (variable.getType()) {
@@ -563,16 +561,24 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
 
     @Override
     public RuntimeValue<?> visitId_expr(CmmParser.Id_exprContext ctx) {
-       var symbol = symbols.peek();
-       var variable = symbol.resolveVarInfallible(ctx.Id().getText());
-       switch (variable.getType()) {
-           case INT_P -> {return new IntPValue(((IntPVar)variable).getData());}
-           case INT -> {return new IntValue(((IntVar)variable).getData());}
-           case CHAR_P -> {return new CharPValue(((CharPVar)variable).getData());}
-           case CHAR -> {return new CharValue(((CharVar)variable).getData());}
-       }
+        var symbol = symbols.peek();
+        var variable = symbol.resolveVarInfallible(ctx.Id().getText());
+        switch (variable.getType()) {
+            case INT_P -> {
+                return new IntPValue(((IntPVar) variable).getData());
+            }
+            case INT -> {
+                return new IntValue(((IntVar) variable).getData());
+            }
+            case CHAR_P -> {
+                return new CharPValue(((CharPVar) variable).getData());
+            }
+            case CHAR -> {
+                return new CharValue(((CharVar) variable).getData());
+            }
+        }
 
-       throw new Error("Invalid id type");
+        throw new Error("Invalid id type");
     }
 
     @Override
@@ -588,16 +594,30 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     @Override
     public RuntimeValue<?> visitChar_expr(CmmParser.Char_exprContext ctx) {
         var c = ctx.Charcon().getText();
-        c = c.substring(1, c.length()-1);
-        if(c.charAt(0) == '\\') {
+        c = c.substring(1, c.length() - 1);
+        if (c.charAt(0) == '\\') {
             switch (c.charAt(1)) {
-                case '\\' -> {return new CharValue('\\');}
-                case '"' ->  {return new CharValue('\"');}
-                case 'b' ->  {return new CharValue('\b');}
-                case 'n' ->  {return new CharValue('\n');}
-                case 'r' ->  {return new CharValue('\r');}
-                case 't' ->  {return new CharValue('\t');}
-                case '0' ->  {return new CharValue('\0');}
+                case '\\' -> {
+                    return new CharValue('\\');
+                }
+                case '"' -> {
+                    return new CharValue('\"');
+                }
+                case 'b' -> {
+                    return new CharValue('\b');
+                }
+                case 'n' -> {
+                    return new CharValue('\n');
+                }
+                case 'r' -> {
+                    return new CharValue('\r');
+                }
+                case 't' -> {
+                    return new CharValue('\t');
+                }
+                case '0' -> {
+                    return new CharValue('\0');
+                }
             }
         }
         return new CharValue(c.charAt(0));
@@ -606,15 +626,15 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     @Override
     public RuntimeValue<?> visitString_expr(CmmParser.String_exprContext ctx) {
         var s = ctx.Stringcon().getText();
-        s = s.substring(1, s.length()-1);
+        s = s.substring(1, s.length() - 1);
         List<Character> a = new ArrayList<>(s.length());
         for (int i = 0; i < s.length(); i++) {
-            if(s.charAt(i) == '\\') {
+            if (s.charAt(i) == '\\') {
                 i++;
                 switch (s.charAt(i)) {
                     case '\\' -> a.add('\\');
                     case '"' -> a.add('\"');
-                    case 'b'-> a.add('\b');
+                    case 'b' -> a.add('\b');
                     case 'n' -> a.add('\n');
                     case 'r' -> a.add('\r');
                     case 't' -> a.add('\t');

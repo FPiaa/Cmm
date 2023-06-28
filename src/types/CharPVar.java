@@ -3,8 +3,9 @@ package types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CharPVar extends Variable<List<Character>>{
+public class CharPVar extends Variable<List<Character>> {
     private final int capacity;
+
     public CharPVar(String name, int size) {
         this.name = name;
         this.type = Types.CHAR_P;
@@ -26,14 +27,14 @@ public class CharPVar extends Variable<List<Character>>{
     }
 
     public void set(int pos, int value) {
-        assert pos<capacity;
+        assert pos < capacity;
         this.data.set(pos, (char) value);
     }
 
     @Override
     public void setData(List<Character> data) {
         this.data = data;
-        if(this.data.size() > capacity)  {
+        if (this.data.size() > capacity) {
             return;
         }
 

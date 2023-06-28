@@ -1,22 +1,20 @@
 package types;
 
+import cmm.CmmParser;
 import exceptions.SymbolRedefinedException;
 import symbol_table.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
-import cmm.CmmParser;
-
-public class Function implements Cloneable{
+public class Function implements Cloneable {
     public final String name;
     public final SymbolTable variables;
     public final List<Variable<?>> args;
     public final Types returnType;
-    public  boolean isExtern;
-    public  boolean hasPrototype;
+    public boolean isExtern;
+    public boolean hasPrototype;
     public boolean failCompilation = false;
     public CmmParser.FunctionContext start;
     public int line;
@@ -31,15 +29,16 @@ public class Function implements Cloneable{
         this.line = line;
         boolean failCompilation = false;
         args = locals;
-        for (Variable<?> v : locals){
+        for (Variable<?> v : locals) {
             try {
                 variables.addVar(v);
             } catch (SymbolRedefinedException e) {
-                System.out.println(e.toString());
+                System.out.println(e);
                 failCompilation = true;
             }
         }
     }
+
     public Function(String name, List<Variable<?>> locals, Types returnType, SymbolTable table, CmmParser.FunctionContext start, int line) {
         this.name = name;
         this.returnType = returnType;
@@ -50,6 +49,15 @@ public class Function implements Cloneable{
         hasPrototype = false;
         args = locals;
 
+    }
+
+    public static Function dummy(String name) {
+        try {
+            return new Function(name, new ArrayList<>(), null, false, false, null, null, 0);
+        } catch (Exception ignored) {
+
+        }
+        return null;
     }
 
     @Override
@@ -65,16 +73,7 @@ public class Function implements Cloneable{
     }
 
     public int getLine() {
-        return  line;
-    }
-
-    public static Function dummy(String name) {
-        try {
-            return new Function(name, new ArrayList<>(), null, false,false, null, null, 0);
-        } catch (Exception ignored) {
-
-        }
-        return null;
+        return line;
     }
 
     @Override
@@ -86,9 +85,9 @@ public class Function implements Cloneable{
         for (var v : variables.functions.keySet()) {
             symbolTable.addFunctionInfallible(variables.resolveFunctionInfallible(v));
         }
-        Function f =new Function(name, args, returnType, symbolTable, start, line);
+        Function f = new Function(name, args, returnType, symbolTable, start, line);
         f.isExtern = isExtern;
         f.hasPrototype = hasPrototype;
-        return (Object) f;
+        return f;
     }
 }

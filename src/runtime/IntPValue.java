@@ -1,7 +1,5 @@
 package runtime;
 
-import types.IntPVar;
-
 import java.util.List;
 
 public class IntPValue extends RuntimeValue<List<Integer>> {
@@ -12,14 +10,14 @@ public class IntPValue extends RuntimeValue<List<Integer>> {
 
     @Override
     public String toString() {
-            var s = new StringBuilder();
-            s.append('[');
-            for (Integer c :
-                    data) {
-                s.append(c);
-                s.append(", ");
-            }
-            s.append(']');
-            return s.toString();
+        var s = new StringBuilder();
+        s.append('[');
+        for (Integer c :
+                data) {
+            s.append(c);
+            s.append(", ");
+        }
+        s.append(']');
+        return s.toString();
     }
 }

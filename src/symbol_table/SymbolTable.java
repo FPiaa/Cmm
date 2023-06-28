@@ -13,6 +13,7 @@ public class SymbolTable {
     public final String name;
     public final Map<String, Variable<?>> variables = new HashMap<>();
     public final Map<String, Function> functions = new HashMap<>();
+
     public SymbolTable(SymbolTable parent, String name) {
         this.name = name;
         this.parent = parent;
@@ -28,13 +29,12 @@ public class SymbolTable {
     }
 
     public Variable<?> resolveVar(String v) throws UndefinedSymbolException {
-        Variable<?>  variable = variables.get(v);
+        Variable<?> variable = variables.get(v);
 //        System.out.printf("Trying to resolve variable %s in scope %s%n", v.getName(), name);
-        if(variable == null){
-            if(parent == null) {
+        if (variable == null) {
+            if (parent == null) {
                 throw new UndefinedSymbolException("Variable %s was not defined".formatted(v));
-            }
-            else {
+            } else {
                 return parent.resolveVar(v);
             }
         }
@@ -42,16 +42,16 @@ public class SymbolTable {
     }
 
     public Variable<?> resolveVarInfallible(String v) {
-        Variable<?>  variable = variables.get(v);
-        if(variable == null){
-                return parent.resolveVarInfallible(v);
+        Variable<?> variable = variables.get(v);
+        if (variable == null) {
+            return parent.resolveVarInfallible(v);
         }
         return variable;
     }
 
-    public void addFunction(Function f) throws SymbolRedefinedException{
+    public void addFunction(Function f) throws SymbolRedefinedException {
         Function fun = functions.get(f.name);
-        if(fun != null) {
+        if (fun != null) {
             throw new SymbolRedefinedException("Function %s was already defined before in line %d.".formatted(f.name, fun.getLine()));
         }
         functions.put(f.name, f);
@@ -69,6 +69,7 @@ public class SymbolTable {
     public Variable<?> getVar(String name) {
         return variables.get(name);
     }
+
     public void addVarInfallible(Variable<?> v) {
         variables.put(v.getName(), v);
     }
@@ -76,12 +77,13 @@ public class SymbolTable {
     public void addFunctionInfallible(Function f) {
         functions.put(f.name, f);
     }
+
     public Function resolveFunction(String f) throws UndefinedSymbolException {
         Function fun = functions.get(f);
         if (fun == null) {
-            if(parent != null) {
+            if (parent != null) {
                 return parent.resolveFunction(f);
-            }else {
+            } else {
                 throw new UndefinedSymbolException("Function %s was not defined.".formatted(f));
             }
         }
@@ -91,7 +93,7 @@ public class SymbolTable {
 
     public Function resolveFunctionInfallible(String f) {
         var fun = functions.get(f);
-        if(fun == null) {
+        if (fun == null) {
             return parent.resolveFunctionInfallible(f);
         }
         return fun;

@@ -13,16 +13,18 @@ public class IntVar extends Variable<Integer> {
         this.type = Types.INT;
         this.data = null;
     }
+
     public void setData(int data) {
         this.data = data;
     }
+
     public void setData(char data) {
-        this.data = (int)data;
+        this.data = (int) data;
     }
 
     @Override
     public Variable<Integer> copy() {
-        if(data != null) {
+        if (data != null) {
             return new IntVar(name, data.intValue());
         }
         return new IntVar(name);

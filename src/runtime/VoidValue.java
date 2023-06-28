@@ -1,7 +1,7 @@
 package runtime;
 
 public class VoidValue extends RuntimeValue<Void> {
-    public VoidValue(){
+    public VoidValue() {
         this.data = null;
     }
 }

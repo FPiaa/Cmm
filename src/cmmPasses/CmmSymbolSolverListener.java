@@ -1,7 +1,7 @@
 package cmmPasses;
 
-import cmm.CmmParser;
 import cmm.CmmBaseListener;
+import cmm.CmmParser;
 import exceptions.SymbolRedefinedException;
 import exceptions.UndefinedSymbolException;
 import symbol_table.SymbolTable;

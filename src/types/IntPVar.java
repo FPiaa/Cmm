@@ -3,9 +3,10 @@ package types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntPVar extends Variable<List<Integer>>{
+public class IntPVar extends Variable<List<Integer>> {
 
-    private int capacity;
+    private final int capacity;
+
     public IntPVar(String name, int size) {
         this.name = name;
         this.type = Types.INT_P;
@@ -22,19 +23,19 @@ public class IntPVar extends Variable<List<Integer>>{
     }
 
     public void set(int pos, int value) {
-        assert pos<capacity ;
+        assert pos < capacity;
         this.data.set(pos, value);
     }
 
     public void set(int pos, char value) {
-        assert pos<capacity;
-        this.data.set(pos, (int)value);
+        assert pos < capacity;
+        this.data.set(pos, (int) value);
     }
 
     @Override
     public void setData(List<Integer> data) {
         this.data = data;
-        if(this.data.size() > capacity) {
+        if (this.data.size() > capacity) {
             return;
         }
 

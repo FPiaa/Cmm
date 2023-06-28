@@ -9,14 +9,14 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.antlr.v4.runtime.Parser;
 import types.Function;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,21 +29,21 @@ public class Main {
         CmmParser parser = new CmmParser(tokens);
         ParseTree tree = parser.prog();
         CmmSymbolSolverListener listener = new CmmSymbolSolverListener();
-        if(parser.getNumberOfSyntaxErrors() > 0) {
+        if (parser.getNumberOfSyntaxErrors() > 0) {
             System.out.flush();
             System.out.println("Compilation ended due to previous errors");
             return;
         }
         ParseTreeWalker walker = new ParseTreeWalker();
         walker.walk(listener, tree);
-        if(listener.failCompilation) {
+        if (listener.failCompilation) {
             System.out.println("Compilation ended due to previous errors");
             return;
         }
         CmmTypeChecking typeChecker = new CmmTypeChecking(listener.symbols);
         tree.accept(typeChecker);
 
-        if(typeChecker.failCompilation) {
+        if (typeChecker.failCompilation) {
             System.out.println("Compilation ended due to previous errors");
             return;
         }
