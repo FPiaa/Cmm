@@ -22,7 +22,7 @@ public class CmmParser extends Parser {
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
 		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
 		T__31=32, WS=33, Comment=34, ArgPointer=35, Id=36, Intcon=37, Charcon=38, 
-		Stringcon=39, Ch=40, Digit=41, Letter=42;
+		Stringcon=39;
 	public static final int
 		RULE_prog = 0, RULE_declaration = 1, RULE_extern = 2, RULE_function_def = 3, 
 		RULE_var = 4, RULE_var_param = 5, RULE_var_decl = 6, RULE_type = 7, RULE_param_types = 8, 
@@ -51,8 +51,7 @@ public class CmmParser extends Parser {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, "WS", "Comment", 
-			"ArgPointer", "Id", "Intcon", "Charcon", "Stringcon", "Ch", "Digit", 
-			"Letter"
+			"ArgPointer", "Id", "Intcon", "Charcon", "Stringcon"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -2176,7 +2175,7 @@ public class CmmParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001*\u010b\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\'\u010b\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+

@@ -22,6 +22,9 @@ public class IntVar extends Variable<Integer> {
 
     @Override
     public Variable<Integer> copy() {
-        return new IntVar(name, data.intValue());
+        if(data != null) {
+            return new IntVar(name, data.intValue());
+        }
+        return new IntVar(name);
     }
 }

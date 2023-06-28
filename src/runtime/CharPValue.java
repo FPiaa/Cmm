@@ -10,9 +10,8 @@ public class CharPValue extends RuntimeValue<List<Character>> {
     @Override
     public String toString() {
         var s = new StringBuilder();
-        for (Character c :
-                data) {
-            s.append(c);
+        for (int i = 0; this.data.get(i) != '\0'; i++) {
+            s.append(this.data.get(i));
         }
         return s.toString();
     }

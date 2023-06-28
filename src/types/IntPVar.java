@@ -5,9 +5,11 @@ import java.util.List;
 
 public class IntPVar extends Variable<List<Integer>>{
 
+    private int capacity;
     public IntPVar(String name, int size) {
         this.name = name;
         this.type = Types.INT_P;
+        capacity = size;
         this.data = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             this.data.add(0);
@@ -27,6 +29,14 @@ public class IntPVar extends Variable<List<Integer>>{
     public void set(int pos, char value) {
         assert pos<data.size();
         this.data.set(pos, (int)value);
+    }
+
+    @Override
+    public void setData(List<Integer> data) {
+        this.data = data;
+        while(this.data.size() < capacity) {
+            this.data.add(0);
+        }
     }
 
     @Override

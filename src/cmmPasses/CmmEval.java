@@ -195,6 +195,20 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
         }
     }
 
+    public RuntimeValue<?> runFunction(Function f, List<RuntimeValue<?>> args) {
+        Function clone = null;
+        try {
+            clone = (Function) f.clone();
+        } catch (CloneNotSupportedException ignored) {
+            throw   new Error("Unsupported clone in function");
+        }
+        symbols.push(clone.variables);
+        setupFunctionCall(f, args);
+        var ret = visit(f.start);
+        symbols.pop();
+        return ret;
+    }
+
     @Override
     public RuntimeValue<?> visitFunction_call_stmt(CmmParser.Function_call_stmtContext ctx) {
         List<RuntimeValue<?>> args = new ArrayList<>();
@@ -204,11 +218,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
                 ctx.expr()) {
             args.add(visit(e));
         }
-        symbols.push(f.variables);
-        setupFunctionCall(f, args);
-        var ret = visit(f.start);
-        symbols.pop();
-        return  ret;
+        return runFunction(f, args);
     }
 
     @Override
@@ -470,7 +480,7 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
                 if (e1 instanceof CharValue && e2 instanceof CharValue) {
                     var t1 = (CharValue) e1;
                     var t2 = (CharValue) e2;
-                    return new BoolValue(!t1.getData().equals(t2.getData()));
+                    return new BoolValue(t1.getData() != t2.getData());
                 }
             }
         }
@@ -481,7 +491,6 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     public RuntimeValue<?> visitMult_expr(CmmParser.Mult_exprContext ctx) {
         var e1 = visit(ctx.expr(0));
         var e2 = visit(ctx.expr(1));
-        System.out.println(e2.getData());
         return runOp(e1, e2, ctx.op.getText());
     }
 
@@ -523,24 +532,14 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     @Override
     public RuntimeValue<?> visitFunction_call_expr(CmmParser.Function_call_exprContext ctx) {
         var symbol = symbols.peek();
-        Function f = null;
-        try {
-            f = (Function) symbol.resolveFunctionInfallible(ctx.Id().getText()).clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(f.variables.hashCode());
+        Function f =  symbol.resolveFunctionInfallible(ctx.Id().getText());
         List<RuntimeValue<?>> args = new ArrayList<>();
         for (var e :
                 ctx.expr()) {
             args.add(visit(e));
         }
 
-        symbols.push(f.variables);
-        setupFunctionCall(f, args);
-        var ret = visit(f.start);
-        symbols.pop();
-        return (RuntimeValue<?>) ret;
+        return runFunction(f, args);
     }
 
     @Override
@@ -590,6 +589,17 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
     public RuntimeValue<?> visitChar_expr(CmmParser.Char_exprContext ctx) {
         var c = ctx.Charcon().getText();
         c = c.substring(1, c.length()-1);
+        if(c.charAt(0) == '\\') {
+            switch (c.charAt(1)) {
+                case '\\' -> {return new CharValue('\\');}
+                case '"' ->  {return new CharValue('\"');}
+                case 'b' ->  {return new CharValue('\b');}
+                case 'n' ->  {return new CharValue('\n');}
+                case 'r' ->  {return new CharValue('\r');}
+                case 't' ->  {return new CharValue('\t');}
+                case '0' ->  {return new CharValue('\0');}
+            }
+        }
         return new CharValue(c.charAt(0));
     }
 
@@ -599,8 +609,22 @@ public class CmmEval extends CmmBaseVisitor<RuntimeValue<?>> {
         s = s.substring(1, s.length()-1);
         List<Character> a = new ArrayList<>(s.length());
         for (int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '\\') {
+                i++;
+                switch (s.charAt(i)) {
+                    case '\\' -> a.add('\\');
+                    case '"' -> a.add('\"');
+                    case 'b'-> a.add('\b');
+                    case 'n' -> a.add('\n');
+                    case 'r' -> a.add('\r');
+                    case 't' -> a.add('\t');
+                    case '0' -> a.add('\0');
+                }
+                continue;
+            }
             a.add(s.charAt(i));
         }
+        a.add('\0');
 
         return new CharPValue(a);
     }
