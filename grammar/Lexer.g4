@@ -5,7 +5,7 @@ Comment: '/*' .*? '*/' -> skip;
 ArgPointer: '[' ']';
 Id: Letter(Letter | Digit | '_')*;
 Intcon: Digit+;
-Charcon: '\'' (~[\\]*| ESC) '\'' | '\n';
+Charcon: '\'' (~[\\]| ESC) '\'' | '\n';
 Stringcon: '"' (~["\\]| ESC)* '"';
 fragment ESC: '\\' (["\\/bnfrt0]);
 fragment Digit: [0-9];

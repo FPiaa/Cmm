@@ -25,7 +25,7 @@ stmt: 'if' '(' expr ')' stmt ('else' stmt)? # if_stmt
     | assign ';' # assign_stmt
     | Id '(' (expr (',' expr)* )? ')'';' # function_call_stmt
     | '{' stmt* '}' # block_stmt
-    | 'print' '(' expr ')' # print_stmt
+    | 'print' '(' expr ')' ';'# print_stmt
     | ';' # semicolon
     ;
 assign: Id indexing? '=' expr;

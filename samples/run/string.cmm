@@ -28,11 +28,15 @@ int cmp_str(char s1[], char s2[]) {
 }
 
 int main(void) {
-    char a[100], b[100];
+    char a[100], b[20];
     a = "Hello World!";
+    b = a;
+    b[10] = 'a';
+    print(a);
     copy_str(a, b);
     b[5] = '\n';
     print(b);
     print(cmp_str(a, b));
+    print(a[80]);
     return 0;
 }

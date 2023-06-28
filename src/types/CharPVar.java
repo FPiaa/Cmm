@@ -16,24 +16,28 @@ public class CharPVar extends Variable<List<Character>>{
     }
 
     public Character index(int pos) {
-        assert pos < data.size();
+        assert pos < capacity;
         return data.get(pos);
     }
 
     public void set(int pos, char value) {
-        assert pos<data.size();
+        assert pos < capacity;
         this.data.set(pos, value);
     }
 
     public void set(int pos, int value) {
-        assert pos<data.size();
+        assert pos<capacity;
         this.data.set(pos, (char) value);
     }
 
     @Override
     public void setData(List<Character> data) {
         this.data = data;
-        while(this.data.size() < capacity) {
+        if(this.data.size() > capacity)  {
+            return;
+        }
+
+        for (int i = this.data.size(); i < capacity; i++) {
             this.data.add('\0');
         }
     }

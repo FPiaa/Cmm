@@ -17,26 +17,31 @@ public class IntPVar extends Variable<List<Integer>>{
     }
 
     public Integer index(int pos) {
-        assert pos < data.size();
+        assert pos < capacity;
         return data.get(pos);
     }
 
     public void set(int pos, int value) {
-        assert pos<data.size();
+        assert pos<capacity ;
         this.data.set(pos, value);
     }
 
     public void set(int pos, char value) {
-        assert pos<data.size();
+        assert pos<capacity;
         this.data.set(pos, (int)value);
     }
 
     @Override
     public void setData(List<Integer> data) {
         this.data = data;
-        while(this.data.size() < capacity) {
-            this.data.add(0);
+        if(this.data.size() > capacity) {
+            return;
         }
+
+        for (int i = this.data.size(); i < capacity; i++) {
+            this.data.add(null);
+        }
+
     }
 
     @Override
